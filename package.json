@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@extism/extism": "^2.0.0-rc11"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --outfile=bundle.js",
+    "win": "esbuild src/index.js --bundle --outfile=build/bundle.js && start src/index.html"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.4"
+  }
+}
