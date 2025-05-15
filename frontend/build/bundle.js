@@ -96,7 +96,7 @@
         var c = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(s.body), a = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(s.body), d = c || a, h = s.body.indexOf(",") >= 0;
         if (!d && !h) return s.post.match(/,.*\}/) ? (l = s.pre + "{" + s.body + vt + s.post, yt(l)) : [l];
         var u;
-        if (d) u = s.body.split(/\.\./);
+        if (d) u = s.body.split(/\.\./); // idk what this does
         else if (u = Se(s.body), u.length === 1 && (u = yt(u[0], false).map(Xs), u.length === 1)) return i.map(function(De) {
           return s.pre + u[0] + De;
         });

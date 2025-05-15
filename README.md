@@ -9,3 +9,5 @@ This repo is for my own practice using Golang and client-side JS with Extism.
 /src: the raw files. Index.js is compiled to bundle.js, which is used by index.js
 
 /server: a Go server that serves the required files
+
+/plugin: the wasm plugin we compile. build command: `tinygo build -o plugin.wasm -target wasip1 -buildmode=c-shared main.go`
