@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type Token int
@@ -83,40 +84,39 @@ func compile(f *os.File) (string, error) {
 	// outTokens := make([]FilledToken, 0)
 
 	// fast file->memory reader; make slice of lines
-	outLines := make([]string, 0)
-	currentLine := 0
+	outString := ""
 	for {
 		line, _, err := reader.ReadLine()
 		if err != nil {
 			break // EOF
 		}
 
-		outLines = append(outLines, "")
-		outLines[currentLine] += string(line) + "\n"
-		currentLine++
+		outString += string(line) + "\n"
 	}
 
-	// lexer
-	char := 0
-	line := 0
-	buf := ""
-	outTokens := make([]FilledToken, 0)
-	for {
-		switch outLines[char] {
-		case '#':
-			line++ // comment, ignore rest of line
-		case '\n':
-			outTokens = append(outTokens, FilledToken{T_NEWLINE, "\n"})
-		default:
-			// no recognized token
-			buf += string(outString[char])
-		}
-		char++
-	}
+	lines := strings.Split(string(outString), "\n")
+
+	// // lexer
+	// char := 0
+	// line := 0
+	// buf := ""
+	// outTokens := make([]FilledToken, 0)
+	// for {
+	// 	switch lines[char] {
+	// 	case '#':
+	// 		line++ // comment, ignore rest of line
+	// 	case '\n':
+	// 		outTokens = append(outTokens, FilledToken{T_NEWLINE, "\n"})
+	// 	default:
+	// 		// no recognized token
+	// 		buf += string(outString[char])
+	// 	}
+	// 	char++
+	// }
 
 	// iterate over outLines
-	for i := 0; i < len(outLines); i++ {
-		fmt.Printf("%s", outLines[i])
+	for i := 0; i < len(lines); i++ {
+		fmt.Printf("%s\n", lines[i])
 	}
 
 	return "", nil
