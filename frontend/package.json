@@ -4,8 +4,8 @@
   },
   "type": "module",
   "scripts": {
-    "build": "esbuild src/index.js --bundle --outfile=bundle.js",
-    "win": "esbuild src/index.js --bundle --outfile=build/bundle.js && start src/index.html"
+    "build": "esbuild src/index.js --bundle --outfile=build/bundle.js --loader:.wasm=file",
+    "serve": "http-server build -o"
   },
   "devDependencies": {
     "esbuild": "0.25.4"

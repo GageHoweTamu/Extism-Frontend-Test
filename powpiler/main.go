@@ -2,6 +2,8 @@ package main
 
 // https://www.aaronraff.dev/blog/how-to-write-a-lexer-in-go
 // https://boyter.org/posts/faster-literal-string-matching-in-go/
+// https://www.youtube.com/watch?v=HxaD_trXwRE - legendary and a lifesaver
+// https://www.youtube.com/watch?v=0oG2a1g3v4A - also legendary
 
 // No LLMS were involved in the making of this program o7
 
@@ -29,6 +31,39 @@ const (
 	T_REDIRECT
 	T_NEWLINE
 )
+
+func (i Token) String() string {
+	switch i {
+	case T_EOF:
+		return "EOF"
+	case T_SHEBANG:
+		return "#!"
+	case T_WORD:
+		return "WORD"
+	case T_NUMBER:
+		return "NUMBER"
+	case T_STRING:
+		return "STRING"
+	case T_PIPE:
+		return "|"
+	case T_ANDAND:
+		return "&&"
+	case T_OROR:
+		return "||"
+	case T_DOLLAR:
+		return "$"
+	case T_SEMI:
+		return ";"
+	case T_COMMENT:
+		return "#"
+	case T_REDIRECT:
+		return ">"
+	case T_NEWLINE:
+		return "\n"
+	default:
+		return "UNKNOWN TOKEN"
+	}
+}
 
 var bash_tokens = []string{
 	T_EOF:      "EOF",
@@ -122,9 +157,8 @@ func FileToSlice(r bufio.Reader, f *os.File) ([]string, error) {
 	return lines, nil
 }
 
-// read until a target substring string is found
-// return index
-// serious leetcode flashbacks
+// read until a target substring string is found, return index
+// leetcode flashbacks
 func multiIndex(s string, targets []string) int {
 	for i := 0; i < len(s); i++ { // for each letter s[i]
 		for j := 0; j < len(targets); j++ { // iterate over target targets[j]

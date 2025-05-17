@@ -1,4 +1,37 @@
 (() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+
+  // src/plugin.wasm
+  var require_plugin = __commonJS({
+    "src/plugin.wasm"(exports, module) {
+      module.exports = "./plugin-XM3J7YRJ.wasm";
+    }
+  });
+
   // node_modules/@extism/extism/dist/browser/mod.js
   var $e = Object.create;
   var zt = Object.defineProperty;
@@ -96,7 +129,7 @@
         var c = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(s.body), a = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(s.body), d = c || a, h = s.body.indexOf(",") >= 0;
         if (!d && !h) return s.post.match(/,.*\}/) ? (l = s.pre + "{" + s.body + vt + s.post, yt(l)) : [l];
         var u;
-        if (d) u = s.body.split(/\.\./); // idk what this does
+        if (d) u = s.body.split(/\.\./);
         else if (u = Se(s.body), u.length === 1 && (u = yt(u[0], false).map(Xs), u.length === 1)) return i.map(function(De) {
           return s.pre + u[0] + De;
         });
@@ -2196,9 +2229,16 @@ globstar while`, t, u, e, b, y), this.matchOne(t.slice(u), e.slice(b), s)) retur
   var Zl = ai;
 
   // src/index.js
+  var getWasmModule = async () => {
+    const wasmModule = await Promise.resolve().then(() => __toESM(require_plugin(), 1));
+    return wasmModule.default;
+  };
   async function runPlugin() {
+    const wasmUrl = await getWasmModule();
+    const response = await fetch(wasmUrl);
+    const wasmBytes = await response.arrayBuffer();
     const plugin = await Zl(
-      "https://cdn.modsurfer.dylibso.com/api/v1/module/be716369b7332148771e3cd6376d688dfe7ee7dd503cbc43d2550d76cb45a01d.wasm",
+      new Uint8Array(wasmBytes),
       { useWasi: true }
     );
     const input = "Hello World";
